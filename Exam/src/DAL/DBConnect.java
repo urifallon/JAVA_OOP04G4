@@ -14,14 +14,11 @@ import java.sql.Statement;
  * @author nhduo
  */
 public class DBConnect {
-    String user ="sa";
-    String password ="admin123";
-    String url = "jdbc:sqlserver://localhost:1433;databaseName=QuanNet"; 
+    String connectionUrl = "jdbc:sqlserver://URIFALLON\\MSSQLSERVER01:1433;databaseName=QuanNet;user=sa;password=admin123;encrypt= false" ;
     Connection con;
     public DBConnect(){
         try {
-            Class.forName("com.microsoft.jdbc.sqlserver.SQLServerDriver");
-            con = DriverManager.getConnection(url, user, password);
+            con = DriverManager.getConnection(connectionUrl);
             if(con != null){
                 System.out.print("success");
             }
