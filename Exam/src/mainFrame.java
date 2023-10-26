@@ -15,26 +15,11 @@ import java.sql.Statement;
 
 public class mainFrame extends javax.swing.JFrame {
 
-    public void setUp(){
-        DefaultTableModel mode = (DefaultTableModel)jTable1.getModel();
-        mode.setRowCount(0);
-        try {
-            DBConnect db = new DBConnect();
-            String query = "select count(*) from KhachHang;";
-            ResultSet rs = db.ExcuteQueryGet(query);
-            rs.next();
-            tb_maKH.setText(Integer.toString(rs.getInt(1)+1)); 
-        } catch (Exception e) {
-            System.err.println("Cant get quantity customer\n");
-        }
-         
-    }
     /**
      * Creates new form mainFrame
      */
     public mainFrame() {
         initComponents();
-        setUp();
     }
 
     /**
@@ -84,10 +69,7 @@ public class mainFrame extends javax.swing.JFrame {
                 "Mã khách hàng", "Tên", "SDT", "Tài khoản", "Số dư"
             }
         ));
-        jTable1.setColumnSelectionAllowed(true);
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
@@ -135,13 +117,6 @@ public class mainFrame extends javax.swing.JFrame {
         lb_nap.setText("Nạp:");
 
         btn_add.setText("Thêm Tài Khoản");
-        btn_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_addActionPerformed(evt);
-            }
-        });
-
-        tb_maKH.setEnabled(false);
 
         javax.swing.GroupLayout controllMainLayout = new javax.swing.GroupLayout(controllMain);
         controllMain.setLayout(controllMainLayout);
@@ -256,11 +231,9 @@ public class mainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-    
     private void mainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainActionPerformed
         DefaultTableModel mode = (DefaultTableModel)jTable1.getModel();
-        mode.setRowCount(0);
+        
         try {
             DBConnect db = new DBConnect();
             String query = "select kh.maKH,kh.tenKH,kh.SDT,tk.tenTK,tk.tienTK from TaiKhoan tk join KhachHang kh on tk.maKH=kh.maKH;";
@@ -269,31 +242,9 @@ public class mainFrame extends javax.swing.JFrame {
                 mode.addRow(new Object[]{rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5)});
             }  
         } catch (Exception e) {
-            System.out.println("Error\n");
+            System.out.println("Error");
         }
     }//GEN-LAST:event_mainActionPerformed
-
-    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
-        DefaultTableModel mode = (DefaultTableModel)jTable1.getModel();
-        mode.setRowCount(0);
-        try {
-            DBConnect db = new DBConnect();
-            String queryKH = "insert into KhachHang(maKH,tenKH,SDT,CCCD) values ("+tb_maKH.getText()+",'"+tb_tenKH.getText()+"',"+tb_SDT.getText()+","+tb_CCCD.getText()+");";
-            db.ExcuteQuerySet(queryKH);
-            String queryTK = "insert into TaiKhoan(tenTK,maKH,matkhau,tienTK) values ('"+tb_tenTK.getText()+"',"+tb_maKH.getText()+",'"+tb_matkhau.getText()+"',"+tb_nap.getText()+");";
-            db.ExcuteQuerySet(queryTK);
-            
-            mode.setRowCount(0);
-            String query = "select kh.maKH,kh.tenKH,kh.SDT,tk.tenTK,tk.tienTK from TaiKhoan tk join KhachHang kh on tk.maKH=kh.maKH;";
-            ResultSet rs = db.ExcuteQueryGet(query);
-            while(rs.next()){
-                mode.addRow(new Object[]{rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5)});
-            }  
-            tb_maKH.setText(String.valueOf(Integer.valueOf(tb_maKH.getText())+1));
-        } catch (Exception e) {
-            System.out.println("Error\n");
-        }
-    }//GEN-LAST:event_btn_addActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,6 +277,7 @@ public class mainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new mainFrame().setVisible(true);
+                
             }
         });
     }

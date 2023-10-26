@@ -20,7 +20,7 @@ public class DBConnect {
         try {
             con = DriverManager.getConnection(connectionUrl);
             if(con != null){
-                System.out.print("success\n");
+                System.out.print("success");
             }
         } catch (Exception e) {
             System.out.print("Error\n");
@@ -33,7 +33,7 @@ public class DBConnect {
             ResultSet rs = stm.executeQuery(query);
             return rs;
         } catch (Exception e) {
-                System.out.print("Error Get\n");
+                System.out.print("Error Get");
         }
         return null;
     }
@@ -43,7 +43,7 @@ public class DBConnect {
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(query);
         } catch (Exception e) {
-                System.out.print("Error Set\n");
+                System.out.print("Error Set");
         }
     }
 }
